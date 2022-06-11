@@ -9,5 +9,3 @@ const app = createApp(App)
 
 // 挂载 
 app.mount('#app')
-
-console.log(app);
