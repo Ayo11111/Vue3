@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <script>
+    //  源数据
+    let person = {
+      name: "罗杰",
+      type: "handsome",
+    };
+
+    // Vue3的响应式原理(proxy原理)(第一个参数是源对象，第二个是配置项)
+    const p = new Proxy(person, {
+      // 有人读取p的某个属性值时调用
+      get(target, propName) {
+        console.log(`有人读取了p身上的${propName}属性`);
+
+        // 操作源数据(Reflct是反射对象)
+        return Reflect.get(target, propName);
+      },
+
+      // 有人修改或者增加p的某个属性值时调用
+      /**
+       * @target 调用的是哪一个对象
+       * @propName 对象里的哪一个key
+       * @value 修改或者新增的值
+       */
+      set(target, propName, value) {
+        console.log(`有人修改了p身上的${propName}属性,我要去更新页面了`);
+
+        // 操作源数据
+        Reflect.set(target, propName, value);
+      },
+
+      // 有人删除p的某个属性值时调用
+      deleteProperty(target, propName) {
+        console.log(`有人删除了p身上的${propName}属性,我要去更新页面了`);
+
+        // 操作源数据
+        return Reflect.deleteProperty(target, propName);
+      },
+    });
+
+    let obj = {
+      a: 1,
+      b: 2,
+    };
+
+    // 通过Reflect.defineProperty去操作
+    /* Reflect(反射对象)中的defineProperty的返回值是该段代码执行是否成功，无需使用trycatch是捕获错误
+     虽然和Object.defineProperty作用差不多，但是后者需要用trycatch捕获错误，对封装框架没那么友好
+     */
+    const x1 = Reflect.defineProperty(obj, "c", {
+      get() {
+        return 3;
+      },
+    });
+
+    const x2 = Reflect.defineProperty(obj, "c", {
+      set() {
+        return 4;
+      },
+    });
+  </script>
+
+  <body></body>
+</html>
