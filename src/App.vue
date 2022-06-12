@@ -1,50 +1,51 @@
 <template>
   <h1>一个人的信息</h1>
-  <h2>姓名：{{ name }}</h2>
-  <h2>年龄：{{ age }}</h2>
-  <h3>职位：{{ job.type }}</h3>
-  <h3>薪水：{{ job.salary }}</h3>
+  <h2>姓名：{{ person.name }}</h2>
+  <h2>年龄：{{ person.age }}</h2>
+  <h3>职位：{{ person.job.type }}</h3>
+  <h3>爱好：{{ person.hobby[0] }}</h3>
+  <h3>薪水：{{ person.job.salary }}</h3>
+  <h3>测试深层次：{{ person.a.b.c }}</h3>
   <button @click="changeInfo">改变信息</button>
 </template>
 
 <script>
 // 引入渲染函数
 // import { h } from "vue";
-import { ref } from "vue";
+import { reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    // 数据要想是响应式的，得用ref函数去的定义
-    let name = ref("张烨");
-    let age = ref(30);
-    const job = ref({
-      type:'前端',
-      salary: '30k'
-    })
+    // reactive函数支持支对象类型的，不支持基础数据类型
+    // 而且这个函数支持深层次的
+    let person = reactive({
+      name: "张烨",
+      age: 30,
+      job: {
+        type: "前端",
+        salary: "30k",
+      },
+      a: {
+        b: {
+          c: 1,
+        },
+      },
+      hobby: ["喝酒"],
+    });
 
-    
     function changeInfo() {
-      // 更改时要用ref函数定义变量里的value
-      name.value = '罗杰'
-      age.value = '18'
-
-      job.value.type = '服务员'
-      job.value.salary = '3k'
-
-      // ref函数处理过的数据叫做ref引用对象
-      console.log(name,age);
-
-      // 如果传给ref的是一个引用数据类型，那么他的value就是一个proxy
-      // 如果传给ref的是一个基础数据类型，那么就是一个ref对象（引用对象）
-      console.log(job.value);
+      person.name = "罗杰";
+      person.age = "18";
+      person.hobby[0] = "亲亲";
+      person.job.type = "服务员";
+      person.job.salary = "3k";
+      person.a.b.c = 2;
     }
 
     // 返回一个对象（常用）
     return {
-      name,
-      age,
-      job,
-      changeInfo
+      person,
+      changeInfo,
     };
   },
 };
