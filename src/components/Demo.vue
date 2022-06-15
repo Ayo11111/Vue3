@@ -1,17 +1,12 @@
 <template>
-  <h1>一个人的信息</h1>
-  姓：<input type="text" v-model="person.firstName" />
-  <br />
-  名：<input type="text" v-model="person.lastName" />
-  <br />
-  全名：<span>{{ person.fullName }}</span>
-  全名：<input type="text" v-model="person.fullName">
+  <h2>当前求和为：{{sum}}</h2>
+  <button @click="sum++">点我+1</button>
 </template>
 
 <script>
 // 引入渲染函数
 // import { h } from "vue";
-import { reactive, computed } from "vue";
+import { reactive, ref,watch } from "vue";
 export default {
   name: "demo",
   props: ["msg", "school"],
@@ -24,33 +19,23 @@ export default {
    * @param {*} context 里面包含emit attrs slots
    */
   setup() {
-    let person = reactive({
-      firstName: "张",
-      lastName: "烨",
-    });
+    
+    let sum = ref(0)
+    let msg = ref('你好啊')
+    
+    // 情况一：监视ref所定义的一个响应式数据
+    // watch('sum',(newVal,oldVal)=>{
+    //   console.log(`sum变化了`,newVal,oldVal);
+    // },{immediate:true,deep:true})
 
-    // vue3计算属性--简写
-    // person.fullName = computed(() => {
-    //   return person.firstName + "-" + person.lastName;
-    // });
-
-    // vue3计算属性--完整写法
-    person.fullName = computed({
-      get() {
-        return person.firstName + "-" + person.lastName;
-      },
-
-      set(value) {
-        console.log(value);
-        const nameArr = value.split("-");
-        person.firstName = nameArr[0];
-        person.lastName = nameArr[1];
-      },
-    });
+    // 情况二：监视ref所定义的多个响应式数据
+    watch([sum,msg],(newVal,oldVal)=>{
+      console.log(`sum变化了`,newVal,oldVal);  // 监视多个时，new和old返回的都是数组，然后参数也是数组，并且是按顺序返回
+    },{immediate:true,deep:true})
 
     // 返回一个对象（常用）
     return {
-      person,
+      sum
     };
   },
 };
