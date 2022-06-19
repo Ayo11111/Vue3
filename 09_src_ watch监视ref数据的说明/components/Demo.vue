@@ -42,7 +42,7 @@ export default {
       console.log("sum发生变化了", newVal, oldVal);
     });
 
-    // 同理，这里面的value是一个对象，直接监视不到，所以要不就是要.value，要不就是要开启deep
+    // 同理，这里面的value是一个对象，直接监视不到，所以要不就是要.value，或者开启deep
     watch(person.value, (newVal, oldVal) => {
       console.log("sum发生变化了", newVal, oldVal);
     });
