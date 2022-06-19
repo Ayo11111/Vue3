@@ -17,7 +17,7 @@ export default {
   emits: ["hello"],
 
   /**
-   * 且setup会在beforeCreate之前先执行一次
+   * 且setup会在beforeCreate之前先执行一次(当使用了配置项beforecreated时，如果使用组合式API配置生命周期钩子时，其本身相当于是beforecreate和created)
    * @param {*} props 组件外传输进来的值
    * @param {*} context 里面包含emit attrs slots
    */
