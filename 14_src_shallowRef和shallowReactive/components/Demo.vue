@@ -41,6 +41,9 @@ export default {
       y: 0,
     }); // shallowRef传入对象类型的将不是响应式的
 
+    // x.value.y = 1 （这样子是不能响应式的）
+    // x = {y:1} （这样子是可以响应式的）
+
     // 返回一个对象（常用）
     return {
       x,
