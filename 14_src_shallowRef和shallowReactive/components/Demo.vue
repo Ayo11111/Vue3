@@ -25,7 +25,7 @@ export default {
    * @param {*} context 里面包含emit attrs slots
    */
   setup() {
-    // let person = shallowReactive({ // 只是第一层数据是响应式的
+    // let person = shallowReactive({ // 只考虑第一层数据的响应式
     let person = reactive({
       name: "张三",
       age: 18,
