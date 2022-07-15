@@ -25,6 +25,33 @@ let Child = defineAsyncComponent(() => import("./components/child.vue")); // 异
 export default {
   name: "App",
   components: { Child },
+
+  setup() {
+    // 函数柯里化
+    function curry(func) {
+      return function curried(...args) {
+        // 这里的func.length拿的是func这个函数的参数长度（使用函数对象的 length 属性可以获取函数的形参个数）
+        if (args.length >= func.length) {
+          return func.apply(null, args);
+        } else {
+          return function (...args2) {
+            return curried.apply(null, args2.concat(args));
+          };
+        }
+      };
+    }
+
+    function sum(a, b, c) {
+      return a + b + c;
+      // return {}
+    }
+
+    const x = curry(sum);
+
+    console.log(x(1, 2, 3));
+    console.log(x(1)(2, 3));
+    console.log(x(1)(2)(3));
+  },
 };
 </script>
 
